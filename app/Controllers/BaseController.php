@@ -29,6 +29,11 @@ class BaseController extends Controller
 	 */
 	protected $helpers = [];
 
+	public function __construct()
+	{
+		helper(['form']);
+	}
+
 	/**
 	 * Constructor.
 	 *

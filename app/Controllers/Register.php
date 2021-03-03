@@ -1,23 +1,21 @@
 <?php namespace App\Controllers;
  
-use CodeIgniter\Controller;
 use App\Models\UserModel;
  
-class Register extends Controller
+class Register extends BaseController
 {
    
     public function index()
     {
         //include helper form
-        helper('form');
- 
+
         $this->affichageFormLogin('Register à wwww.site.com', false);
     }
  
     public function save()
     {
         //include helper form
-        helper('form');
+        
         //set rules validation form
         $rules = [
             'name'          => 'required|min_length[3]|max_length[20]',
@@ -25,7 +23,9 @@ class Register extends Controller
             'password'      => 'required|min_length[6]|max_length[200]',
             'confpassword'  => 'matches[password]'
         ];
-         
+     /***********************************************************************************************
+     * Si les saisies de l'utilisateur respectent les regles de validation on le connecte directement
+     * **********************************************************************************************/
         if($this->validate($rules)){
             
             $model = new UserModel();
@@ -40,7 +40,9 @@ class Register extends Controller
             
             $this->affichageFormLogin('Register à wwww.site.com', false, $this->validator );
         }
-         
+    /****************************************************
+     * fonction qui permet d'afficher la vue register
+     * ***********************************************/
     }
     private function affichageFormLogin($pageTitle = "", $affMenu = false, $validation = null)
     {
