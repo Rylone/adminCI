@@ -36,6 +36,7 @@ class Register extends Controller
         ];
          
         if($this->validate($rules)){
+            
             $model = new UserModel();
             $data = [
                 'userName'     => $this->request->getVar('name'),
