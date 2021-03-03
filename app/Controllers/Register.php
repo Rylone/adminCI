@@ -5,22 +5,13 @@ use App\Models\UserModel;
  
 class Register extends Controller
 {
-
-    
+   
     public function index()
     {
         //include helper form
         helper('form');
-         $data = [
-			'page_title' => 'Register à wwww.site.com' ,
-			'aff_menu'  => false
-		];
-
-		echo view('common/HeaderAdmin' , 	$data);
-        echo view('register', $data);
-		echo view('common/FooterSite');
-
-       
+ 
+        $this->affichageFormLogin('Register à wwww.site.com', false);
     }
  
     public function save()
@@ -47,17 +38,21 @@ class Register extends Controller
             return redirect()->to('/login');
         }else{
             
-            $data = [
-                'page_title' => 'Register à wwww.site.com' ,
-                'aff_menu'  => false,
-                'validation' => $this->validator
-            ];
-    
-            echo view('common/HeaderAdmin' , 	$data);
-            echo view('register', $data);
-            echo view('common/FooterSite');
+            $this->affichageFormLogin('Register à wwww.site.com', false, $this->validator );
         }
          
+    }
+    private function affichageFormLogin($pageTitle = "", $affMenu = false, $validation = null)
+    {
+        $data = [
+            'page_title' => $pageTitle ,
+            'aff_menu'  => $affMenu,
+            'validation' => $validation
+        ];
+
+        echo view('common/HeaderAdmin' , 	$data);
+        echo view('register', $data);
+        echo view('common/FooterSite');
     }
  
 }
