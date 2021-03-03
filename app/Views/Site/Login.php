@@ -5,7 +5,7 @@
                     <div class="col s12 m6 l4 z-depth-4 card-panel border-radius-6 login-card bg-opacity-8">
                    
 
-                        <form action="<?= base_url('/login/loggin'); ?>"  class="login-form" method="post">
+                        <form action="<?= base_url('/login/connexion'); ?>"  class="login-form" method="post">
                             <div class="row">
                                 <div class="input-field col s12">
                                     <h5 class="ml-4">Sign in</h5>

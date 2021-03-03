@@ -9,7 +9,7 @@ class Register extends BaseController
     {
         //include helper form
 
-        $this->affichageFormLogin('Register à wwww.site.com', false);
+        $this->affichageFormRegister('Register à wwww.site.com', false);
     }
  
     public function save()
@@ -38,13 +38,13 @@ class Register extends BaseController
             return redirect()->to('/login');
         }else{
             
-            $this->affichageFormLogin('Register à wwww.site.com', false, $this->validator );
+            $this->affichageFormRegister('Register à wwww.site.com', false, $this->validator );
         }
     /****************************************************
      * fonction qui permet d'afficher la vue register
      * ***********************************************/
     }
-    private function affichageFormLogin($pageTitle = "", $affMenu = false, $validation = null)
+    private function affichageFormRegister($pageTitle = "", $affMenu = false, $validation = null)
     {
         $data = [
             'page_title' => $pageTitle ,

@@ -28,10 +28,14 @@ class BaseController extends Controller
 	 * @var array
 	 */
 	protected $helpers = [];
+	protected $session;
+
 
 	public function __construct()
 	{
 		helper(['form']);
+		$this->session = \Config\Services::session();
+		$this->session->start();
 	}
 
 	/**
@@ -49,6 +53,14 @@ class BaseController extends Controller
 		//--------------------------------------------------------------------
 		// Preload any models, libraries, etc, here.
 		//--------------------------------------------------------------------
-		// E.g.: $this->session = \Config\Services::session();
+
 	}
+	public function verifAcces($url)
+	{
+        if(!$this->session->get('userID'))
+		{
+			return redirect()->to($url);
+	    }
+	}
+	
 }

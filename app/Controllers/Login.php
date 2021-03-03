@@ -8,23 +8,16 @@ class Login extends BaseController
 {
 	public function index()
 	{	
-
+       $this->affichageFormLogin('Connexion à wwww.site.com', false);
 		/** exemple de passage de variable a une vue */ 
-		$data = [
-			'page_title' => 'Connexion à wwww.site.com' ,
-			'aff_menu'  => false
-		];
-
-		echo view('common/HeaderAdmin' , 	$data);
-		echo view('Site/Login');
-		echo view('common/FooterSite');
+	
 	}
 	
 
-	public function loggin()
+	public function connexion()
     {
         //include helper form
-        helper('form');
+   
         //set rules validation form
         $rules = [
             'email'         => 'required|min_length[6]|max_length[50]|valid_email',
@@ -45,22 +38,31 @@ class Login extends BaseController
 					   $pwd = $user['userPassword'];
 					   if(password_verify($data['userPassword'], $pwd))
 					   {
-						   return $user['userId'];
+						  $sessionData = [
+							               'userID'=>
+										   $user['userId']
+										];
+						  $this->session = session();
+						  $this->session->set($sessionData); // setting session data
+						 
+						  return redirect()->to('/admin/Accueil');
 					   } 
 				   }
         }  
-			
-         $data = [
-                'page_title' => 'connexion à wwww.site.com' ,
-                'aff_menu'  => false,
-                'validation' => $this->validator
-            ];
-    
-			echo view('common/HeaderAdmin' , 	$data);
-			echo view('Site/Login');
-			echo view('common/FooterSite');
-        
-         
+
+		$this->affichageFormLogin('connexion à wwww.site.com', false, $this->validator);
+    }
+	private function affichageFormLogin($pageTitle = "", $affMenu = false, $validation = null)
+    {
+        $data = [
+            'page_title' => $pageTitle ,
+            'aff_menu'  => $affMenu,
+            'validation' => $validation
+        ];
+
+        echo view('common/HeaderAdmin' , 	$data);
+        echo view('Site/Login', $data);
+        echo view('common/FooterSite');
     }
 }
 
