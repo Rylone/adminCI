@@ -1,7 +1,5 @@
 <?php
 
-namespace App\Controllers\Admin;
-
 use CodeIgniter\Controller;
 
 class Users extends Controller
