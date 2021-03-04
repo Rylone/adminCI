@@ -8,15 +8,13 @@ class Login extends BaseController
 {
 	public function index()
 	{	
-       $this->affichageFormLogin('Connexion à wwww.site.com', false);
-		/** exemple de passage de variable a une vue */ 
-	
+       $this->affichageFormLogin('Connexion à wwww.site.com', false);	
 	}
 	
 
 	public function connexion()
     {
-        //include helper form
+        //helper form est inclus dans baseController
    
         //set rules validation form
         $rules = [
