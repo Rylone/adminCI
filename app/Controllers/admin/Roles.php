@@ -3,43 +3,58 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
+use App\Models\RoleModel;
 use App\Models\ArtistesModel;
+use App\Models\FilmModel;
 
 
-class Artistes extends BaseController
+class Roles extends BaseController
 {
 	public $artistesModel = null;
 
 	public function __construct()
 	{
-		 $this->artistesModel = new ArtistesModel();
+		 $this->RoleModel = new RoleModel();
+         $this->ArtistesModel = new ArtistesModel();
+         $this->FilmModel = new FilmModel();
 	}
 	public function index()
-	{	
+	{		
+        /**********************************************************************************
+		  ** on stocke nos models dans une variable pour les transmettre dans notre vue
+		**********************************************************************************/ 
+        $nameActeurs = $this->ArtistesModel;
+        $nameFilms = $this->FilmModel;
+
 		/**************************************************************** 
 		  ** data corresponds au données que je souhaite passer a ma vue 
 		*****************************************************************/ 
-		//$listArtistes = $this->artistesModel->findAll();
-		
-		//dd($listArtistes);
 			$data = [
-				'page_title' => 'Les Artistes du site' ,
+				'page_title' => 'Les differents roles du site' ,
 				'aff_menu'  => true, 
-				'tabArtistes'=> $this->artistesModel->orderBy('id', 'DESC')->paginate(12),
-				'pager'=>  $this->artistesModel->pager,
+				'tabRoles'=> $this->RoleModel->orderBy('nom_role', 'ASC')->paginate(12),
+				'pager'=>  $this->RoleModel->pager,
+                'artisteModel' => $nameActeurs,
+                'filmModel'=> $nameFilms
 			];
-	
+    
+            /*
+            $db = \Config\Database::connect();
+            $builder = $db->table('role');
+            $builder->select('*');
+            $builder->join('artistes', 'artistes.id = role.id_acteur');
+            $query = $builder->get();
+	         d($query); 
+             SELECT * FROM blogs JOIN comments ON comments.id = blogs.id
+             */
 			
-			echo view('common/HeaderAdmin' , 	$data);
-			echo view('admin/Artistes/List', $data);
-			echo view('common/FooterSite');
+			echo view('common/HeaderAdmin' , $data);
+			echo view('admin/Roles/List', $data);
+			echo view('common/FooterAdmin');
 	}
-    public function edit($id = null)
+    public function edit($idFilm = null, $idActeur = null)
 	{
-		/**********************************************
-		 * Je controle si j'ai posté mon formulaire
-		 **********************************************/
-		if(!empty($this->request->getVar("save")))
+        if(!empty($this->request->getVar("save")))
 		{
 			$save = $this->request->getVar("save");
 
@@ -49,14 +64,14 @@ class Artistes extends BaseController
 				  avoir une longueur min de 3 characteres et une longueur max de 30 caracteres
 		 		********************************************************************************/
 				$rules = [
-					'nom'         => 'required|min_length[3]|max_length[30]',
-					'prenom'      => 'required|min_length[3]|max_length[30]',
-					'naissance'   => 'required'
+					'nameRole'         => 'required|min_length[3]|max_length[30]',
+					'nameArtiste'      => 'required',
+					'nameFilm'         => 'required'
 				];
 				 /******************************************************************
 		         * Si les champs sont valides permet la soumission du formulaire
 		         ********************************************************************/
-				if($this->validate($rules))
+				/*if($this->validate($rules))
 				{
 					$dataSave = [
 						'nom' => $this->request->getVar('nom'),
@@ -65,17 +80,18 @@ class Artistes extends BaseController
 					];
 					if($save == "update")
 					{
-						$this->ArtistesModel->where('id', $id)
+						$this->artistesModel->where('id', $id)
 											->set($dataSave)
 											->update();
 						//return redirect()->to('/admin/Artistes');
 					} else { 
-						$this->ArtistesModel->save($dataSave);
+						$this->artistesModel->save($dataSave);
 						return redirect()->to('/admin/Artistes');
 					}
-		    	}  		
-		}
-		$artisteEdit = $this->ArtistesModel->where('id', $id)->first();
+		    	}  	*/	
+		} 
+        // on selectionne le role qui va correspondre a l'idfilm et l'idacteur
+		$roleEdit = $this->RoleModel->where('id', $id)->first();
 	
 		$data = [
 			'page_title' => 'Les Artistes du site' ,
@@ -87,6 +103,7 @@ class Artistes extends BaseController
 		echo view('admin/Artistes/Edit', $data);
 		echo view('common/FooterSite');
 		
+		
 	}
 	public function delete($id = null, $page = null)
 	{
@@ -96,7 +113,7 @@ class Artistes extends BaseController
 			return redirect()->to('/admin/Artistes?page='.$page);
 		} else {
 			return redirect()->to('/admin/Artistes');
-		}
-	
+        }
 	}
+
 }

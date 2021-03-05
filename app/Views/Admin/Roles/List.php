@@ -10,7 +10,7 @@
                       
                         <!-- create invoice button-->
                         <div class="invoice-create-btn">
-                            <a href="<?php echo base_url('admin/artistes/edit')?>" class="btn waves-effect waves-light invoice-create border-round z-depth-4">
+                            <a href="<?php echo base_url('admin/roles/edit')?>" class="btn waves-effect waves-light invoice-create border-round z-depth-4">
                                 <i class="material-icons">add</i>
                                 <span class="hide-on-small-only">Create User</span>
                             </a>
@@ -26,13 +26,9 @@
                                         <th></th>
                                         <!-- data table checkbox -->
                                         <th></th>
-                                        <th>
-                                            <span>ID</span>
-                                        </th>
-                                        <th>Nom</th>
-                                        <th>Prénom</th>
-                                        <th>Naissance</th>
-                                        <th>Nombre de films</th>
+                                        <th>Nom du role</th>
+                                        <th>Nom de l'auteur</th>
+                                        <th>Nom du film</th>
                                         <th>Actions</th>
                     
                                     </tr>
@@ -41,30 +37,28 @@
                                 <tbody>
                              
                                     <?php 
-                                    if(isset($tabArtistes) && !empty($tabArtistes))
+                                    if(isset($tabRoles) && !empty($tabRoles))
                                     {
-                                        foreach($tabArtistes as $artiste)
+                                        foreach($tabRoles as $role)
                                         { 
+                                           $artiste = $artisteModel->where("id", $role['id_acteur'])->first();
+                                           $film = $filmModel->where("id", $role['id_film'])->first();
                                     ?>       
                                     <tr>
                                         <td></td>
                                         <td></td>
-                                        <td>
-                                            <a href="app-invoice-view.html"><?php echo $artiste['id']; ?></a>
-                                        </td>
-                                        <td><span class="invoice-amount"><?php echo $artiste['nom']; ?></span></td>
-                                        <td><span class="invoice-customer"><?php echo $artiste['prenom']; ?></span></td>
-                                        <td><span class="invoice-customer"><?php echo $artiste['annee_naissance']; ?></span></td>
-                                        <td><span class="invoice-customer">8</span></td>
+                                        <td><span class="invoice-amount"><?php echo $role['nom_role']; ?></span></td>
+                                        <td><span class="invoice-customer"><?php echo $artiste['prenom']." ".$artiste['nom']; ?></span></td>
+                                        <td><span class="invoice-customer"><?php echo $film["titre"]; ?></span></td>
                                         <td>
                                             <div class="invoice-action">
-                                                <a href="<?php echo base_url('admin/artistes/edit/'.$artiste['id'])?>" class="invoice-action-view mr-4">
+                                                <a href="<?php echo base_url('admin/roles/edit/'.$role['id_acteur'].'/'.$role['id_film'])?>" class="invoice-action-view mr-4">
                                                     <i class="material-icons">edit</i>
                                                 </a>
                                                 <?php if(isset($_GET['page']) && !empty($_GET['page'])) { ?>
-                                                    <a href="<?php echo base_url('admin/artistes/delete/'.$artiste['id']."/".$_GET['page'])?>" class="invoice-action-edit">
+                                                    <a href="<?php echo base_url('admin/roles/delete/'.$role['id_acteur'].'/'.$role['id_film']."/".$_GET['page'])?>" class="invoice-action-edit">
                                                 <?php } else { ?>
-                                                    <a href="<?php echo base_url('admin/artistes/delete/'.$artiste['id'])?>" class="invoice-action-edit">
+                                                    <a href="<?php echo base_url('admin/roles/delete/'.$role['id_acteur'].'/'.$role['id_film'])?>" class="invoice-action-edit">
                                                 <?php } ?>
                                                     <i class="material-icons">delete_forever</i>
                                                 </a>
@@ -73,7 +67,8 @@
                                     </tr>
                                     <?php 
                                         }
-                                    } ?>
+                                }
+                                 ?>
                                    
                                 </tbody>
 

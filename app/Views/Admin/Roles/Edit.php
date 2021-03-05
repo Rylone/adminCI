@@ -17,10 +17,10 @@
                                 <div id="validation" class="card card card-default scrollspy">
                                     <div class="card-content">
                                         <h4 class="card-title">Editer un artiste </h4>
-                                        <form action='<?php echo base_url('admin/artistes/edit/'.$oneArtiste['id']) ?>' method="POST">
+                                        <form action='<?php echo base_url('admin/roles/edit/'.$oneRole['id_acteur'].'/'.$oneRole['id_film']) ?>' method="POST">
                                         <!-- Je cache mon champs pour dire que je suis dans le mode modifier  -->
                                         <!-- Si save = update je sauvegarder les modifications -->
-                                        <?php if(isset($oneArtiste['id']) && !empty($oneArtiste['id'])) 
+                                        <?php if(isset($oneRole['id_acteur']) && isset($oneRole['id_film']) && !empty($oneRole['id_acteur']) && !empty($oneRole['id_film'])) 
                                         { 
                                         ?>
                                         <input type="hidden" name='save' value='update' >
@@ -40,22 +40,22 @@
                                             <div class="row">
                                                 <div class="input-field col s12">
                                                     <i class="material-icons prefix">account_circle</i>
-                                                    <input id="prenom" type="text" name="prenom" placeholder='<?php echo $oneArtiste['prenom'];?>'value='<?php echo $oneArtiste['prenom'];?>' class="validate">
-                                                    <label for="prenom">Prénom de l'Artiste</label>
+                                                    <input id="name" type="text" name="nomRole"  class="validate">
+                                                    <label for="name"></label>
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <div class="input-field col s12">
                                                     <i class="material-icons prefix">account_circle</i>
-                                                    <input id="nom" type="text" name="nom" class="validate" placeholder='<?php echo $oneArtiste['nom'];?>'value='<?php echo $oneArtiste['nom'];?>'>
-                                                    <label for="nom">Nom de l'Artiste</label>
+                                                    <input id="acteur" type="text" name="nameArtiste" class="validate" >
+                                                    <label for="acteur">Nom de l'Artiste</label>
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <div class="input-field col s12">
                                                     <i class="material-icons prefix">date_range</i>
-                                                    <input id="naissance" type="number" name='naissance' class="validate" placeholder='<?php echo $oneArtiste['annee_naissance'];?>' value='<?php echo $oneArtiste['annee_naissance'];?>'>
-                                                    <label for="naissance">Date de Naissance de l'Artiste</label>
+                                                    <input id="film" type="number" name='nameFilm' class="validate" >
+                                                    <label for="film">Date de Naissance de l'Artiste</label>
                                                 </div>
                                             </div>
     
