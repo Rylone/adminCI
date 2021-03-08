@@ -17,7 +17,7 @@
                                 <div id="validation" class="card card card-default scrollspy">
                                     <div class="card-content">
                                         <h4 class="card-title">Editer un artiste </h4>
-                                        <form action='<?php echo base_url('admin/artistes/edit/'.$oneArtiste['id']) ?>' method="POST">
+                                        <form action='<?php echo base_url('admin/artistes/edit/'.$oneArtiste['id']) ?>' method="POST"  enctype="multipart/form-data">
                                         <!-- Je cache mon champs pour dire que je suis dans le mode modifier  -->
                                         <!-- Si save = update je sauvegarder les modifications -->
                                         <?php if(isset($oneArtiste['id']) && !empty($oneArtiste['id'])) 
@@ -51,6 +51,16 @@
                                                     <label for="nom">Nom de l'Artiste</label>
                                                 </div>
                                             </div>
+                                            <div class="file-field input-field col s12">
+                                                        <div class="btn">
+                                                        <i class="material-icons right">add_a_photo</i>
+                                                            <span> Photo de l'artiste </span>
+                                                            <input type="file" name="imageArtiste">
+                                                        </div>
+                                                        <div class="file-path-wrapper">
+                                                            <input class="file-path validate" type="text">
+                                                        </div>
+                                                    </div>
                                             <div class="row">
                                                 <div class="input-field col s12">
                                                     <i class="material-icons prefix">date_range</i>

@@ -3,28 +3,34 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
+/** Appel des models utilisés dans mon controller **/
 use App\Models\RoleModel;
 use App\Models\ArtistesModel;
 use App\Models\FilmModel;
+/** Appel des models utilisés dans mon controller **/
 
 
 class Roles extends BaseController
 {
 	public $artistesModel = null;
+	public $filmsModel = null;
+	public $rolesModel = null;
+
 
 	public function __construct()
 	{
-		 $this->RoleModel = new RoleModel();
-         $this->ArtistesModel = new ArtistesModel();
-         $this->FilmModel = new FilmModel();
+		/******** Initialisation des models appelés  *****/
+		 $this->rolesModel = new RoleModel();
+         $this->artistesModel = new ArtistesModel();
+         $this->filmsModel = new FilmModel();
 	}
 	public function index()
 	{		
         /**********************************************************************************
 		  ** on stocke nos models dans une variable pour les transmettre dans notre vue
 		**********************************************************************************/ 
-        $nameActeurs = $this->ArtistesModel;
-        $nameFilms = $this->FilmModel;
+        $nameActeurs = $this->artistesModel;
+        $nameFilms = $this->filmsModel;
 
 		/**************************************************************** 
 		  ** data corresponds au données que je souhaite passer a ma vue 
@@ -32,8 +38,8 @@ class Roles extends BaseController
 			$data = [
 				'page_title' => 'Les differents roles du site' ,
 				'aff_menu'  => true, 
-				'tabRoles'=> $this->RoleModel->orderBy('nom_role', 'ASC')->paginate(12),
-				'pager'=>  $this->RoleModel->pager,
+				'tabRoles'=> $this->rolesModel->orderBy('nom_role', 'ASC')->paginate(12),
+				'pager'=>  $this->rolesModel->pager,
                 'artisteModel' => $nameActeurs,
                 'filmModel'=> $nameFilms
 			];
@@ -52,67 +58,83 @@ class Roles extends BaseController
 			echo view('admin/Roles/List', $data);
 			echo view('common/FooterAdmin');
 	}
-    public function edit($idFilm = null, $idActeur = null)
+    public function edit($idActeur = null, $idFilm = null)
 	{
         if(!empty($this->request->getVar("save")))
 		{
 			$save = $this->request->getVar("save");
-
 		        /********************************************************************************
 				 * Je vérifie si les champs sont correctement remplis
 				 * exemple : nom du formulaire est requis et devra 
 				  avoir une longueur min de 3 characteres et une longueur max de 30 caracteres
 		 		********************************************************************************/
 				$rules = [
-					'nameRole'         => 'required|min_length[3]|max_length[30]',
+					'nameRole'         => 'required',
 					'nameArtiste'      => 'required',
 					'nameFilm'         => 'required'
 				];
+
 				 /******************************************************************
 		         * Si les champs sont valides permet la soumission du formulaire
 		         ********************************************************************/
-				/*if($this->validate($rules))
+				if($this->validate($rules))
 				{
-					$dataSave = [
-						'nom' => $this->request->getVar('nom'),
-						'prenom' => $this->request->getVar('prenom'),
-						'annee_naissance' => $this->request->getVar('naissance')
+					$dataSave = 
+					[
+						'id_film' => $this->request->getVar('nameFilm'),
+						'id_acteur' => $this->request->getVar('nameArtiste'),
+						'nom_role' => $this->request->getVar('nameRole')
 					];
+                   
 					if($save == "update")
 					{
-						$this->artistesModel->where('id', $id)
+					   $this->request->getVar('nameFilm');
+					   $this->rolesModel->where('id_acteur', (int) $idActeur)->where('id_film', (int) $idFilm)
 											->set($dataSave)
-											->update();
-						//return redirect()->to('/admin/Artistes');
+											->update(); 
+					/* petit plus : pour editer sur la meme page sans redirection */
+                    /* Si la mise a jour est reussit il faut faire une requete qui devra recuperer les nouvelles donnees*/
+					/* Les nouvelles données doit etre transmise a la vue pour etre affiché */
+					/* faire une redirect qui va ajouter un parametre dans l'url et devras declencher laffichage edité*/
+					   return redirect()->to('/admin/roles');
 					} else { 
-						$this->artistesModel->save($dataSave);
-						return redirect()->to('/admin/Artistes');
+						$this->rolesModel->save($dataSave);
+					  return redirect()->to('/admin/Roles');
 					}
-		    	}  	*/	
-		} 
+		    	}
+			
+			}
+		
         // on selectionne le role qui va correspondre a l'idfilm et l'idacteur
-		$roleEdit = $this->RoleModel->where('id', $id)->first();
+		// faire un selecte dans le formulaire d'édition qui affichent tout les acteurs et tous les films
+	    //dd($roleEdit);
+		$roleEdit = $this->rolesModel->where('id_acteur', (int) $idActeur)->where('id_film', (int) $idFilm)->first();
+		$filmEdit = $this->filmsModel->orderBy('titre', 'ASC')->findAll();
+		$acteurEdit = $this->artistesModel->orderBy('nom', 'ASC')->findAll();
+		//dd($filmEdit, $acteurEdit);
 	
 		$data = [
-			'page_title' => 'Les Artistes du site' ,
+			'page_title' => 'Les Roles du site' ,
 			'aff_menu'  => true, 
-			'oneArtiste'=> $artisteEdit
+			'oneRole'=> $roleEdit,
+			'selectFilms' => $filmEdit,
+			'selectActeurs' => $acteurEdit
 		];
 
 		echo view('common/HeaderAdmin' , 	$data);
-		echo view('admin/Artistes/Edit', $data);
+		echo view('admin/Roles/Edit', $data);
 		echo view('common/FooterSite');
 		
 		
 	}
-	public function delete($id = null, $page = null)
+	public function delete($idActeur = null, $idFilm = null, $page = null)
 	{
-		$this->artistesModel->where('id', $id)->delete();
+		$this->rolesModel->where('id_acteur', (int) $idActeur)->where('id_film', (int) $idFilm)->delete();
 		if(!empty($page))
 		{
-			return redirect()->to('/admin/Artistes?page='.$page);
+			return redirect()->to('/admin/Roles?page='.$page);
 		} else {
-			return redirect()->to('/admin/Artistes');
+			return redirect()->to('/admin/Roles');
         }
 	}
 

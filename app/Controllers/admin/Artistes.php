@@ -51,7 +51,7 @@ class Artistes extends BaseController
 				$rules = [
 					'nom'         => 'required|min_length[3]|max_length[30]',
 					'prenom'      => 'required|min_length[3]|max_length[30]',
-					'naissance'   => 'required'
+					'naissance'   => 'required',
 				];
 				 /******************************************************************
 		         * Si les champs sont valides permet la soumission du formulaire
@@ -61,21 +61,33 @@ class Artistes extends BaseController
 					$dataSave = [
 						'nom' => $this->request->getVar('nom'),
 						'prenom' => $this->request->getVar('prenom'),
-						'annee_naissance' => $this->request->getVar('naissance')
+						'annee_naissance' => $this->request->getVar('naissance'),
 					];
+
 					if($save == "update")
 					{
-						$this->ArtistesModel->where('id', $id)
-											->set($dataSave)
-											->update();
+						$file = $this->request->getFile('imageArtiste');
+						if($file)
+						{
+							if ($file->isValid() && ! $file->hasMoved())
+							{
+								$newName = $file->getRandomName();
+								$file->move(ROOTPATH.'/public/uploads', $newName);
+								$dataSave["image"] = $newName;
+								$this->artistesModel->where('id', $id)
+								->set($dataSave)
+								->update();
+							}
+						} 
+					
 						//return redirect()->to('/admin/Artistes');
 					} else { 
-						$this->ArtistesModel->save($dataSave);
+						$this->artistesModel->save($dataSave);
 						return redirect()->to('/admin/Artistes');
 					}
 		    	}  		
 		}
-		$artisteEdit = $this->ArtistesModel->where('id', $id)->first();
+		$artisteEdit = $this->artistesModel->where('id', $id)->first();
 	
 		$data = [
 			'page_title' => 'Les Artistes du site' ,

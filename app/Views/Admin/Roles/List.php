@@ -41,7 +41,9 @@
                                     {
                                         foreach($tabRoles as $role)
                                         { 
+                                            /**** * On selectionne l'artiste associé a cet identifiant *** */
                                            $artiste = $artisteModel->where("id", $role['id_acteur'])->first();
+                                            /**** * On selectionne le film associé a cet identifiant *** */
                                            $film = $filmModel->where("id", $role['id_film'])->first();
                                     ?>       
                                     <tr>
