@@ -3,6 +3,6 @@
 use CodeIgniter\Model;
  
 class FilmModel extends Model{
-    protected $table = 'film';
+    protected $table = 'films';
     protected $allowedFields = ['id','titre','annee','is_realisateur','genre', 'resume', 'code_pays'];
 }

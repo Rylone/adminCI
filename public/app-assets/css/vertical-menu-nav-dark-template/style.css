@@ -2801,7 +2801,7 @@ select
 {
     #main
     {
-        padding-left: 250px;
+         padding-left: 250px; 
     }
     #main.main-full
     {
@@ -2813,7 +2813,7 @@ select
     }
     footer
     {
-        padding-left: 71px;
+        padding: 0px;
     }
 }
 
@@ -11786,7 +11786,7 @@ tr.group:hover
 
 .page-footer .container
 {
-    padding: 0 15px;
+    padding: 0 0;
 }
 
 .page-footer .footer-copyright

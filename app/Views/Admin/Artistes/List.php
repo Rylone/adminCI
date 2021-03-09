@@ -33,8 +33,8 @@
                                         <th>Prénom</th>
                                         <th>Naissance</th>
                                         <th>Nombre de films</th>
+                                        <th>Images</th>
                                         <th>Actions</th>
-                    
                                     </tr>
                                 </thead>
 
@@ -56,6 +56,13 @@
                                         <td><span class="invoice-customer"><?php echo $artiste['prenom']; ?></span></td>
                                         <td><span class="invoice-customer"><?php echo $artiste['annee_naissance']; ?></span></td>
                                         <td><span class="invoice-customer">8</span></td>
+                                        <td><span class="invoice-customer">
+                                        <?php if(isset($artiste['image']) && !empty($artiste['image'])) {
+                                        ?>
+                                              <img src ="<?php echo '/uploads/'.$artiste["image"] ?>" > 
+
+                                        <?php } ?>
+                                        </span></td>
                                         <td>
                                             <div class="invoice-action">
                                                 <a href="<?php echo base_url('admin/artistes/edit/'.$artiste['id'])?>" class="invoice-action-view mr-4">

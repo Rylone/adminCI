@@ -75,6 +75,12 @@ class Artistes extends BaseController
 								$file->move(ROOTPATH.'/public/uploads', $newName);
 								$dataSave["image"] = $newName;
 							}
+							/*
+							$image = \Config\Services::image() // on utilise la class image
+							->withFile('/path/to/image/mypic.jpg') // on utilise le lien qui a stocker l'image de base
+							->fit(100, 100, 'center') // on fait la miniature de la taille que l'on souhaite
+							->save('/path/to/image/mypic_thumb.jpg'); // on creer un nouveau dossier pour enregistrer la miniature
+							*/
 						} 
 						$this->artistesModel->where('id', $id)
 						->set($dataSave)
