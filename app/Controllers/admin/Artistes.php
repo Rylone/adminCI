@@ -74,12 +74,11 @@ class Artistes extends BaseController
 								$newName = $file->getRandomName();
 								$file->move(ROOTPATH.'/public/uploads', $newName);
 								$dataSave["image"] = $newName;
-								$this->artistesModel->where('id', $id)
-								->set($dataSave)
-								->update();
 							}
 						} 
-					
+						$this->artistesModel->where('id', $id)
+						->set($dataSave)
+						->update();
 						//return redirect()->to('/admin/Artistes');
 					} else { 
 						$this->artistesModel->save($dataSave);
