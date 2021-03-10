@@ -37,23 +37,38 @@ class Home extends BaseController
 		$genre =  $this->genresModel->findAll();
 		$role =  $this->rolesModel;
 		$searchFilm = $this->filmsModel;
-		$i = 1;
-		$i = $i + 1 ;
+		
 
 		if(!empty($typeDeRecherche) && !empty($elementSearch))
 		{
 			switch($typeDeRecherche)
 			{
 				case "realisateur":
-				$searchFilm =  $searchFilm->where('id_realisateur', $elementSearch);
+					//si j'ai realisateur seachfilm devra chercher la colonne id realiseur en fonction du deuxieme parametre 
+					// $i = 1;
+					// $i = $i + 1 ;
+					// search film sera egale à cette requete
+					$searchFilm =  $searchFilm->where('id_realisateur', $elementSearch);
                     break;
 				case "genre":
-				$searchFilm = $this->filmsModel->where('genre', $elementSearch)->orderBy('id', 'DESC')->paginate(6);
-				break;
-
+					// utiliser la fonction lower ou uppercase pour convertir la chaine de caracteres en min ou maj 
+					$searchFilm = $searchFilm->where('genre', $elementSearch);
+					break;
+				case "annee":
+					$searchFilm = $searchFilm->where('annee', $elementSearch);
+					break;
+				case "pays":
+					$searchFilm = $searchFilm->where('code_pays', $elementSearch);
+					break;
+				case "recherche":
+					$searchFilm = $searchFilm->like('titre', $elementSearch, "both", null, true);
+					break;
 			}
 
 		}
+		// Si j'ai une condition du switch case $searchFilm sera egale à la requete du case contenu dans $seachfilm
+		// on ajoutera ensuite lee orderby et la pagination
+		// si il n'y a pas de condition on fait un orderby de tout les films et une pagination
     	$searchFilm = $searchFilm->orderBy('id', 'DESC')->paginate(6);
 
 

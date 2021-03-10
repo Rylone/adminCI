@@ -58,6 +58,7 @@
                         <!--Flat Card With Redio & chips-->
                         <div id="card-with-radio-chips" class="section">
                             <h4 class="header">Les films a vous proposer </h4>
+                           
                             <div class="row">
                             <?php foreach($tabFilms as $film) {
                                 $artiste = $artisteModel->where("id", $film['id_realisateur'])->first();
@@ -69,10 +70,10 @@
                                        </div>
                                        <div class="card-action pt-0">
                                            <p class="white-text"><?php echo $film['titre'];?></p>
-                                           <div class="chip"><?php echo $film['code_pays'];?> <i class="close material-icons">close</i></div>
-                                           <div class="chip"><?php echo $film['genre'];?> <i class="close material-icons">close</i></div>
-                                           <div class="chip"><?php echo $film['annee'];?> <i class="close material-icons">close</i></div>
-                                           <div class="chip"><a href="<?php echo base_url("home/index/realisateur/".$film["id_realisateur"])?>"><?php if(isset($artiste['nom']) && !empty($artiste['nom']) && isset($artiste['prenom']) && !empty($artiste['prenom'])){ echo $artiste['nom']." ".$artiste['prenom'];}?> <i class="close material-icons">face</i></div>
+                                           <div class="chip"><a href="<?php echo base_url("home/index/pays/".$film["code_pays"])?>"><?php echo $film['code_pays'];?><i class="close material-icons">face</i></a></div>
+                                           <div class="chip"><a href="<?php echo base_url("home/index/genre/".$film["genre"])?>"><?php echo $film['genre'];?><i class="close material-icons">face</i></a></div>
+                                           <div class="chip"><a href="<?php echo base_url("home/index/annee/".$film["annee"])?>"><?php echo $film['annee'];?><i class="close material-icons">face</i></a></div>
+                                           <div class="chip"><a href="<?php echo base_url("home/index/realisateur/".$film["id_realisateur"])?>"><?php if(isset($artiste['nom']) && !empty($artiste['nom']) && isset($artiste['prenom']) && !empty($artiste['prenom'])){ echo $artiste['nom']." ".$artiste['prenom'];}?> <i class="close material-icons">local_movies</i></a></div>
                                        </div>
                                        <div class="card-action pt-0">
                                            <p class="white-text"><?php if(isset($film['resume']) && !empty($film['resume'])) {echo substr($film['resume'], 0, 40)." ...";} else { echo "Ce film ne contient pas de résumé ...";}?></p>
