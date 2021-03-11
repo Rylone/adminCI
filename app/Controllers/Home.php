@@ -30,6 +30,7 @@ class Home extends BaseController
 		 $this->paysModel = new PaysModel();
 
 	}
+	// LES PARAMTRES DE LA FONCTION CORRESPONDENT A LENVOIE DE DONNEES PAR GET
 	public function index($typeDeRecherche = null, $elementSearch = null)
 	{
 		$artistes =  $this->artistesModel;
