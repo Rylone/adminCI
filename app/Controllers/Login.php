@@ -10,10 +10,12 @@ class Login extends BaseController
 	{	
        $this->affichageFormLogin('Connexion à wwww.site.com', false);	
 	}
-	
 
 	public function connexion()
     {
+        $this->session = session();
+        $sessionData = [];
+        var_dump($this->session);
         //helper form est inclus dans baseController
    
         //set rules validation form
@@ -39,14 +41,16 @@ class Login extends BaseController
 						  $sessionData = [
 							               'userID'=>
 										   $user['userId']
-										];
-						  $this->session = session();
-						  $this->session->set($sessionData); // setting session data
-						 
+										];		
+                         $this->session->set($sessionData); 
 						  return redirect()->to('/admin/Accueil');
-					   } 
+					   } else {
+                           $this->session->setFlashdata('mdp_wrong',"mot de passe incorrecte" );
+                       }
 				   }
-        }  
+        }  else {
+            $this->session->setFlashdata('error', $this->validator->getErrors());
+        }
 
 		$this->affichageFormLogin('connexion à wwww.site.com', false, $this->validator);
     }
